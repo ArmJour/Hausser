@@ -3,6 +3,8 @@ Hausser is a web-based application designed to facilitate the recruitment and ma
 
 This project was developed as a Laboratory Assignment for Analisis dan Perancangan Sistem (APS) at Universitas Brawijaya.
 
+![Sign-In](https://github.com/user-attachments/assets/9cf2db4d-1e93-4b5a-8b1b-c5fec365c161)
+
 ## 🏗️ System Architecture
 This project follows the Monolithic MVC (Model-View-Controller) architecture pattern, ensuring a clean separation of concerns as defined in the SOLID principles.
 View Layer: HTML5 + Thymeleaf (Server-Side Rendering) & CSS3.
