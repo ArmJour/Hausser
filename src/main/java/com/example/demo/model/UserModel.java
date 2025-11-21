@@ -3,41 +3,52 @@ package com.example.demo.model;
 import java.time.LocalDateTime;
 
 public class UserModel {
-    public long user_id;
-    public String full_name;
-    public String email;
-    public String password_hash;
-    public String telephone_num;
-    public UserRole role;
-    public VerificationStatus verificationStatus;
-    public LocalDateTime created_at;
-    public LocalDateTime updated_at;
+    private long user_Id;
+    private String full_Name;
+    private String email;
+    private String password_hash;
+    private String telephone_num;
+    private UserRole role;
+    private VerificationStatus verificationStatus;
+    private LocalDateTime created_at;
+    private LocalDateTime updated_at;
 
-    public UserModel(long user_id, String full_name, String email, String password_hash, String telephone_num,
-                     UserRole role, VerificationStatus verificationStatus, LocalDateTime created_at, LocalDateTime updated_at) {
-        this.user_id = user_id;
-        this.full_name = full_name;
+    public UserModel(long user_Id, String Full_name, String email, String password_hash, String telephone_num,
+                     UserRole role) {
+        this.user_Id = user_Id;
+        this.full_Name = full_Name;
         this.email = email;
         this.password_hash = password_hash;
         this.telephone_num = telephone_num;
         this.role = role;
-        this.verificationStatus = verificationStatus;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
+        this.verificationStatus = VerificationStatus.NOT_VERIFIED;
+        this.created_at = LocalDateTime.now();
+        this.updated_at = LocalDateTime.now();
     }
 
     public void updatePassword(String newHash) {
         this.password_hash = newHash;
+        this.updated_at = LocalDateTime.now();
     }
 
-    public void updateInfo(String full_name, String telephone_num) {
-        this.full_name = full_name;
+    public void updateInfo(String full_Name, String telephone_num) {
+        this.full_Name = full_Name;
         this.telephone_num = telephone_num;
+        this.updated_at = LocalDateTime.now();
     }
 
-    public void submitForVerification() { }
-    public void approveVerification() { }
-    public void rejectVerification() { }
+    public void submitForVerification() {
+       this.verificationStatus = VerificationStatus.PENDING;
+       this.updated_at = LocalDateTime.now();
+    }
+    public void approveVerification() {
+        this.verificationStatus = VerificationStatus.VERIFIED;
+        this.updated_at = LocalDateTime.now();
+    }
+    public void rejectVerification() {
+        this.verificationStatus = VerificationStatus.REJECTED;
+        this.updated_at = LocalDateTime.now();
+    }
     public boolean isVerified() {
         return verificationStatus == VerificationStatus.VERIFIED;
     }
@@ -47,5 +58,13 @@ public class UserModel {
     public boolean isAdmin() {
         return role == UserRole.ADMIN;
     }
+
+    public Long getUserId() { return user_Id; }
+    public String getFull_Name() { return full_Name; }
+    public String getEmail() { return email; }
+    public String getPassword() { return password_hash; }
+    public String getTelephone_num() { return telephone_num; }
+    public UserRole getRole() { return role; }
+    public VerificationStatus getVerificationStatus() { return verificationStatus; }
 
 }
