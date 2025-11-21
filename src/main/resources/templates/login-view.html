@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Hausser</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/static/css/login-style.css">
+</head>
+<body>
+
+<div class="login-container">
+    <div class="left-panel">
+        <h1>Selamat datang di Hausser!</h1>
+    </div>
+
+    <div class="right-panel">
+        <div class="login-form-container">
+
+            <h2>Masuk</h2>
+
+            <form action="/login" method="POST">
+                <div class="input-group">
+                    <img src="/static/image/icon-20.svg" alt="User Icon" class="input-icon">
+                    <input type="text" id="username" placeholder="Nama Pengguna atau Email" required>
+                </div>
+
+                <div class="input-group">
+                    <img src="/static/image/icon-22.svg" alt="Lock Icon" class="input-icon">
+                    <input type="password" id="password" placeholder="Kata Sandi" required>
+                </div>
+
+                <div class="options">
+                    <label class="remember-me">
+                        <input type="checkbox">
+                        <span class="text-remember">Remember me</span>
+                    </label>
+                    <a href="#" class="forgot-password">Lupa Kata Sandi?</a>
+                </div>
+
+                <button type="submit" class="btn-login">Masuk</button>
+            </form>
+
+            <div class="register-link">
+                Belum punya akun? <a href="#">Buat Akun</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

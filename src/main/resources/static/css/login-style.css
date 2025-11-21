@@ -1,0 +1,149 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    height: 100vh;
+    overflow: hidden; /* Mencegah scrollbar ganda */
+}
+
+.login-container {
+    display: flex;
+    width: 100vw;
+    height: 100vh; /* Memaksa container memenuhi layar browser */
+}
+
+/* --- Bagian Kiri (Biru) --- */
+/* Sekarang dibuat memenuhi 50-60% layar tanpa margin */
+.left-panel {
+    width: 60%;
+    height: 100%; /* Full Height */
+    background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    /* Jika ingin sudut tumpul hanya di sisi kanan: */
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+}
+
+.left-panel h1 {
+    font-size: 3.5rem; /* Font lebih besar */
+    font-weight: 700;
+    text-align: center;
+    padding: 0 20px;
+}
+
+/* --- Bagian Kanan (Form) --- */
+.right-panel {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+}
+
+.login-form-container {
+    width: 80%; /* Lebar form 80% dari panel kanan */
+    max-width: 450px;
+}
+
+h2 {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 40px;
+    color: #000;
+}
+
+/* --- Styling Input dengan Icon --- */
+.input-group {
+    position: relative; /* Penting agar icon bisa diposisikan absolute */
+    margin-bottom: 25px;
+}
+
+/* Mengatur posisi Icon di dalam input */
+.input-icon {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%); /* Agar icon pas di tengah vertikal */
+    width: 24px; /* Sesuaikan ukuran icon */
+    height: 24px;
+    opacity: 0.6;
+}
+
+/* Input Field */
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 18px 20px 18px 60px; /* Padding kiri 60px agar teks tidak menabrak icon */
+    border: 1px solid #e5e7eb; /* Warna border halus */
+    border-radius: 50px;
+    font-size: 16px;
+    outline: none;
+    background-color: #fff;
+    transition: all 0.3s;
+}
+
+input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1); /* Efek glow biru muda */
+}
+
+/* --- Options --- */
+.options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    font-size: 14px;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    color: #6b7280;
+}
+
+.forgot-password {
+    color: #3b82f6;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* --- Button --- */
+.btn-login {
+    width: 100%;
+    padding: 18px;
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-login:hover {
+    background-color: #2563eb;
+}
+
+.register-link {
+    margin-top: 30px;
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.register-link a {
+    color: #3b82f6;
+    text-decoration: none;
+    font-weight: 700;
+}
