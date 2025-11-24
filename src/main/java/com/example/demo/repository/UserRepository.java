@@ -1,13 +1,11 @@
 package com.example.demo.repository;
 
 import com.example.demo.model.UserModel;
-import com.example.demo.model.UserRole;
-import com.example.demo.model.VerificationStatus;
+import com.example.demo.model.enums.UserRole;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public class UserRepository {

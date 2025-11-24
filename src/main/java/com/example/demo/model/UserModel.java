@@ -1,5 +1,8 @@
 package com.example.demo.model;
 
+import com.example.demo.model.enums.UserRole;
+import com.example.demo.model.enums.VerificationStatus;
+
 import java.time.LocalDateTime;
 
 public class UserModel {
