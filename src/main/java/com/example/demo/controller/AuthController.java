@@ -17,28 +17,23 @@ public class AuthController {
     private UserRepository userRepository;
 
     @GetMapping("/login")
-    public String showLoginPage(@RequestParam(value = "action", required = false) String action,
-                                Model model) {
-
-        // Cek apakah user mengklik "Buat Akun" (action=signup)
+    public String showLoginPage(@RequestParam(value = "action", required = false) String action, Model model) {
         if ("signup".equals(action)) {
-            // Beri sinyal ke HTML untuk menampilkan popup
             model.addAttribute("showRoleSelection", true);
         }
-
         return "login-view";
     }
 
-    // --- 2. PROSES LOGIN ---
     @PostMapping("/login")
     public String loginUser(@RequestParam("usernameInput") String email,
                             @RequestParam("passwordInput") String password,
                             Model model) {
 
+        // logic: findByEmail now looks inside the JSON file
         UserModel user = userRepository.findByEmail(email);
 
         if (user != null && user.getPassword().equals(password)) {
-            return "redirect:/dashboard";
+            return "redirect:/dashboard"; // Create a dashboard.html later
         } else {
             model.addAttribute("error", "Email atau Password salah!");
             return "login-view";
@@ -46,30 +41,43 @@ public class AuthController {
     }
 
     @GetMapping("/register")
-    public String showRegistrationPage(@RequestParam(value = "role", required = false) String selectedRole,
-                                       Model model) {
-        if (selectedRole != null) {
-            model.addAttribute("selectedRole", selectedRole);
-        }
+    public String showRegistrationPage(@RequestParam(value = "role", required = false) String selectedRole, Model model) {
+        String role = (selectedRole != null) ? selectedRole : "MAJIKAN";
+        model.addAttribute("selectedRole", role);
         return "registrasi-view";
     }
 
-    // --- 4. PROSES REGISTRASI ---
     @PostMapping("/register")
     public String registerUser(@RequestParam("namaInput") String nama,
                                @RequestParam("emailInput") String email,
-                               @RequestParam("passInput") String password,
                                @RequestParam("teleponInput") String telepon,
+                               @RequestParam("alamatInput") String address, // Make sure HTML name matches this
+                               @RequestParam("passInput") String password,
+                               @RequestParam("confirmPassInput") String confirmPassword,
                                @RequestParam("roleInput") String roleStr,
                                Model model) {
+
+        model.addAttribute("selectedRole", roleStr);
+
+        if (!password.equals(confirmPassword)) {
+            model.addAttribute("error", "Password tidak cocok!");
+            return "registrasi-view";
+        }
+
         try {
             UserRole peran = UserRole.valueOf(roleStr.toUpperCase());
             Long newId = System.currentTimeMillis();
-            UserModel newUser = new UserModel(newId, nama, email, password, telepon, peran);
+
+            // Create user WITH ADDRESS
+            UserModel newUser = new UserModel(newId, nama, email, password, telepon, address, peran);
+
+            // This will trigger the JSON write
             userRepository.save(newUser);
+
             return "redirect:/login";
         } catch (Exception e) {
-            model.addAttribute("error", "Registrasi Gagal: " + e.getMessage());
+            e.printStackTrace();
+            model.addAttribute("error", "Gagal: " + e.getMessage());
             return "registrasi-view";
         }
     }

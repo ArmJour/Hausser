@@ -2,36 +2,61 @@ package com.example.demo.repository;
 
 import com.example.demo.model.UserModel;
 import com.example.demo.model.enums.UserRole;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Repository;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 @Repository
 public class UserRepository {
-    private final List<UserModel> userTable = new ArrayList<>();
+    private List<UserModel> userTable = new ArrayList<>();
+    private final String FILE_PATH = "users.json"; // File will be created in project root
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     public UserRepository() {
-        UserModel admin = new UserModel(1L, "System Admin", "admin", "1234", "08123456789", UserRole.ADMIN);
-        admin.approveVerification();
-        userTable.add(admin);
+        // Load existing users from JSON file on startup
+        loadDataFromFile();
 
-        UserModel majikan = new UserModel(2L, "Budi Santoso", "budi@email.com", "sandi123", "0811111111", UserRole.MAJIKAN);
-        userTable.add(majikan);
+        // If file is empty or doesn't exist, add default Admin
+        if (userTable.isEmpty()) {
+            UserModel admin = new UserModel(1L, "System Admin", "admin", "1234", "08123456789", "Admin Office", UserRole.ADMIN);
+            admin.setVerificationStatus(com.example.demo.model.enums.VerificationStatus.VERIFIED);
+            save(admin);
+        }
     }
 
-    public UserModel findById(Long id) {
-        for (UserModel user: userTable) {
-            if (user.getUserId().equals(id)) {
-                return user;
+    // --- JSON FILE HANDLING ---
+    private void loadDataFromFile() {
+        File file = new File(FILE_PATH);
+        if (file.exists()) {
+            try {
+                userTable = objectMapper.readValue(file, new TypeReference<List<UserModel>>() {});
+                System.out.println("Users loaded successfully from " + FILE_PATH);
+            } catch (IOException e) {
+                System.out.println("Error reading user file: " + e.getMessage());
             }
         }
-        return null;
     }
 
+    private void saveDataToFile() {
+        try {
+            objectMapper.writeValue(new File(FILE_PATH), userTable);
+            System.out.println("Users saved to " + FILE_PATH);
+        } catch (IOException e) {
+            System.out.println("Error saving user file: " + e.getMessage());
+        }
+    }
+    // ---------------------------
+
     public UserModel findByEmail(String email) {
-        for (UserModel user: userTable) {
-            if (user.getEmail().equalsIgnoreCase(email)) {
+        // Always refresh data from file before checking login to be safe
+        loadDataFromFile();
+        for (UserModel user : userTable) {
+            if (user.getEmail() != null && user.getEmail().equalsIgnoreCase(email)) {
                 return user;
             }
         }
@@ -39,23 +64,17 @@ public class UserRepository {
     }
 
     public void save(UserModel user) {
-        UserModel existingUser = findById(user.getUserId());
-
-        if (existingUser != null) {
-            userTable.remove(existingUser);
-        }
+        // Remove existing user with same ID if update
+        userTable.removeIf(u -> u.getUser_Id() == user.getUser_Id());
 
         userTable.add(user);
-    }
 
-    public void delete(Long id) {
-        UserModel userToDelete = findById(id);
-        if (userToDelete != null) {
-            userTable.remove(userToDelete);
-        }
+        // Write to JSON immediately
+        saveDataToFile();
     }
 
     public List<UserModel> findAll() {
+        loadDataFromFile();
         return userTable;
-    }   
+    }
 }

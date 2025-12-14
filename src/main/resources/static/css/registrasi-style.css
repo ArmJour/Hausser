@@ -1,0 +1,216 @@
+:root {
+    --primary-blue: #1e1e64;
+    --accent-blue: #3b82f6;
+    --text-dark: #000000;
+    --text-grey: #848484;
+    --error-red: #ff0800;
+    --font-inter: 'Inter', sans-serif;
+    --font-ubuntu: 'Ubuntu', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-ubuntu);
+    background-color: #f5f5f5;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px; /* Tambahan padding di body untuk layar kecil */
+}
+
+.main-container {
+    display: flex;
+    /* PERBAIKAN UKURAN: Diperbesar agar tidak terlalu kecil */
+    width: 95%;
+    max-width: 1400px; /* Sebelumnya 1200px */
+    height: 90vh;
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+/* --- SIDEBAR STYLES --- */
+.sidebar {
+    width: 35%;
+    background: linear-gradient(180deg, #304C89 0%, #181835 100%);
+    /* Padding dikurangi sedikit agar gambar lebih dekat ke tepi atas/bawah */
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    /* PERBAIKAN POSISI GAMBAR: space-between mendorong elemen ke paling atas dan paling bawah */
+    justify-content: space-between;
+    align-items: center; /* Memastikan gambar di tengah secara horizontal */
+    position: relative;
+    color: white;
+}
+
+/* Style .sidebar-content dan .info-card DIHAPUS karena HTML-nya sudah dihapus */
+
+.illustration-top, .illustration-bottom {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    /* Opsional: Tambahkan sedikit margin jika tidak ingin benar-benar menempel tepi */
+    /* margin-top: 1rem; */
+    /* margin-bottom: 1rem; */
+}
+
+.illustration-top img, .illustration-bottom img {
+    max-width: 90%; /* Agar gambar tidak terlalu penuh */
+    height: auto;
+    border-radius: 10px;
+    object-fit: contain;
+}
+
+
+/* --- FORM STYLES (Tidak banyak berubah dari sebelumnya) --- */
+.form-section {
+    width: 65%;
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow-y: auto;
+}
+
+.form-wrapper {
+    max-width: 750px; /* Sedikit diperlebar */
+    width: 100%;
+    margin: 0 auto;
+}
+
+.form-title {
+    font-family: var(--font-inter);
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: var(--text-dark);
+    text-align: left;
+}
+
+.input-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 0.5rem;
+    font-weight: 500; /* Sedikit lebih tebal */
+    font-family: var(--font-inter);
+    color: var(--text-dark);
+}
+
+.form-group input {
+    padding: 14px 18px; /* Padding sedikit diperbesar */
+    border: 1px solid #ccc;
+    border-radius: 50px; /* Membuatnya benar-benar lonjong (pill shape) */
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s;
+    font-family: var(--font-inter);
+}
+
+.form-group input:focus {
+    border-color: var(--accent-blue);
+}
+
+.alert-error {
+    color: var(--error-red);
+    font-weight: bold;
+    margin-bottom: 1rem;
+    text-align: left;
+    font-size: 0.9rem;
+    background-color: #ffebee;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+/* --- BUTTONS --- */
+.form-actions {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-top: 1rem;
+}
+
+.btn-register {
+    background-color: var(--accent-blue);
+    color: white;
+    border: none;
+    padding: 14px 50px; /* Tombol sedikit lebih besar */
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.3s;
+    font-family: var(--font-inter);
+}
+
+.btn-register:hover {
+    background-color: #2563eb;
+}
+
+.btn-cancel {
+    text-decoration: none;
+    color: var(--text-dark);
+    font-weight: 700;
+    font-size: 1rem;
+    font-family: var(--font-inter);
+}
+
+.btn-cancel:hover {
+    text-decoration: underline;
+    color: var(--accent-blue);
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 1024px) {
+    .main-container {
+        flex-direction: column;
+        height: auto;
+        min-height: 95vh;
+        width: 95%;
+        margin: 20px 0;
+    }
+
+    .sidebar {
+        width: 100%;
+        padding: 2rem;
+        flex-direction: row; /* Di mobile, gambar jadi kiri-kanan */
+        justify-content: space-around;
+    }
+
+    .illustration-top img, .illustration-bottom img {
+        max-width: 150px; /* Batasi ukuran gambar di mobile */
+    }
+
+    .form-section {
+        width: 100%;
+        padding: 2rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .input-grid {
+        grid-template-columns: 1fr; /* Stack inputs on mobile kecil */
+        gap: 1rem;
+    }
+
+    .sidebar {
+        flex-direction: column; /* Kembali atas-bawah di layar sangat kecil */
+        gap: 1rem;
+    }
+}

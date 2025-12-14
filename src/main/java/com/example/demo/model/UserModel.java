@@ -2,7 +2,6 @@ package com.example.demo.model;
 
 import com.example.demo.model.enums.UserRole;
 import com.example.demo.model.enums.VerificationStatus;
-
 import java.time.LocalDateTime;
 
 public class UserModel {
@@ -11,63 +10,56 @@ public class UserModel {
     private String email;
     private String password_hash;
     private String telephone_num;
+    private String address; // Added field
     private UserRole role;
     private VerificationStatus verificationStatus;
-    private LocalDateTime created_at;
-    private LocalDateTime updated_at;
+    private String created_at;
+    private String updated_at;
 
-    public UserModel(long user_Id, String Full_name, String email, String password_hash, String telephone_num,
-                     UserRole role) {
+    public UserModel() {
+    }
+
+    // 2. Updated Constructor with Address
+    public UserModel(long user_Id, String full_Name, String email, String password_hash, String telephone_num, String address, UserRole role) {
         this.user_Id = user_Id;
         this.full_Name = full_Name;
         this.email = email;
         this.password_hash = password_hash;
         this.telephone_num = telephone_num;
+        this.address = address;
         this.role = role;
         this.verificationStatus = VerificationStatus.NOT_VERIFIED;
-        this.created_at = LocalDateTime.now();
-        this.updated_at = LocalDateTime.now();
+        this.created_at = LocalDateTime.now().toString();
+        this.updated_at = LocalDateTime.now().toString();
     }
 
-    public void updatePassword(String newHash) {
-        this.password_hash = newHash;
-        this.updated_at = LocalDateTime.now();
-    }
+    // Getters and Setters
+    public long getUser_Id() { return user_Id; }
+    public void setUser_Id(long user_Id) { this.user_Id = user_Id; }
 
-    public void updateInfo(String full_Name, String telephone_num) {
-        this.full_Name = full_Name;
-        this.telephone_num = telephone_num;
-        this.updated_at = LocalDateTime.now();
-    }
-
-    public void submitForVerification() {
-       this.verificationStatus = VerificationStatus.PENDING;
-       this.updated_at = LocalDateTime.now();
-    }
-    public void approveVerification() {
-        this.verificationStatus = VerificationStatus.VERIFIED;
-        this.updated_at = LocalDateTime.now();
-    }
-    public void rejectVerification() {
-        this.verificationStatus = VerificationStatus.REJECTED;
-        this.updated_at = LocalDateTime.now();
-    }
-    public boolean isVerified() {
-        return verificationStatus == VerificationStatus.VERIFIED;
-    }
-    public boolean isPending() {
-        return verificationStatus == VerificationStatus.PENDING;
-    }
-    public boolean isAdmin() {
-        return role == UserRole.ADMIN;
-    }
-
-    public Long getUserId() { return user_Id; }
     public String getFull_Name() { return full_Name; }
-    public String getEmail() { return email; }
-    public String getPassword() { return password_hash; }
-    public String getTelephone_num() { return telephone_num; }
-    public UserRole getRole() { return role; }
-    public VerificationStatus getVerificationStatus() { return verificationStatus; }
+    public void setFull_Name(String full_Name) { this.full_Name = full_Name; }
 
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+
+    public String getPassword() { return password_hash; } // JSON usually looks for getPassword_hash, but we can map it
+    public String getPassword_hash() { return password_hash; }
+    public void setPassword_hash(String password_hash) { this.password_hash = password_hash; }
+
+    public String getTelephone_num() { return telephone_num; }
+    public void setTelephone_num(String telephone_num) { this.telephone_num = telephone_num; }
+
+    public String getAddress() { return address; }
+    public void setAddress(String address) { this.address = address; }
+
+    public UserRole getRole() { return role; }
+    public void setRole(UserRole role) { this.role = role; }
+
+    public VerificationStatus getVerificationStatus() { return verificationStatus; }
+    public void setVerificationStatus(VerificationStatus verificationStatus) { this.verificationStatus = verificationStatus; }
+
+    // Helper booleans
+    public boolean isVerified() { return verificationStatus == VerificationStatus.VERIFIED; }
+    public boolean isAdmin() { return role == UserRole.ADMIN; }
 }
