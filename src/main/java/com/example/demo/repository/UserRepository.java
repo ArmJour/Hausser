@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Repository;
 
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,12 +22,14 @@ public class UserRepository {
         // Load existing users from JSON file on startup
         loadDataFromFile();
 
-        // If file is empty or doesn't exist, add default Admin
         if (userTable.isEmpty()) {
+            System.out.println("No users found. Creating default Admin...");
             UserModel admin = new UserModel(1L, "System Admin", "admin", "1234", "08123456789", "Admin Office", UserRole.ADMIN);
             admin.setVerificationStatus(com.example.demo.model.enums.VerificationStatus.VERIFIED);
             save(admin);
         }
+
+        System.out.println("Saving data to: " + new File(FILE_PATH).getAbsolutePath());
     }
 
     // --- JSON FILE HANDLING ---
@@ -35,9 +38,9 @@ public class UserRepository {
         if (file.exists()) {
             try {
                 userTable = objectMapper.readValue(file, new TypeReference<List<UserModel>>() {});
-                System.out.println("Users loaded successfully from " + FILE_PATH);
+                System.out.println("Users loaded successfully: " + userTable.size());
             } catch (IOException e) {
-                System.out.println("Error reading user file: " + e.getMessage());
+                throw new RuntimeException("CRITICAL: Failed to load users.json. Fix the file or delete it manually.", e);
             }
         }
     }
@@ -64,12 +67,9 @@ public class UserRepository {
     }
 
     public void save(UserModel user) {
-        // Remove existing user with same ID if update
         userTable.removeIf(u -> u.getUser_Id() == user.getUser_Id());
 
         userTable.add(user);
-
-        // Write to JSON immediately
         saveDataToFile();
     }
 

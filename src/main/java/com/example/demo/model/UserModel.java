@@ -3,6 +3,7 @@ package com.example.demo.model;
 import com.example.demo.model.enums.UserRole;
 import com.example.demo.model.enums.VerificationStatus;
 import java.time.LocalDateTime;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class UserModel {
     private long user_Id;
@@ -43,7 +44,10 @@ public class UserModel {
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
 
-    public String getPassword() { return password_hash; } // JSON usually looks for getPassword_hash, but we can map it
+    @JsonIgnore
+    public String getPassword() {
+        return password_hash;
+    } // JSON usually looks for getPassword_hash, but we can map it
     public String getPassword_hash() { return password_hash; }
     public void setPassword_hash(String password_hash) { this.password_hash = password_hash; }
 
@@ -60,6 +64,8 @@ public class UserModel {
     public void setVerificationStatus(VerificationStatus verificationStatus) { this.verificationStatus = verificationStatus; }
 
     // Helper booleans
+    @JsonIgnore
     public boolean isVerified() { return verificationStatus == VerificationStatus.VERIFIED; }
+    @JsonIgnore
     public boolean isAdmin() { return role == UserRole.ADMIN; }
 }

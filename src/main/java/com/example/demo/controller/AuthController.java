@@ -33,7 +33,7 @@ public class AuthController {
         UserModel user = userRepository.findByEmail(email);
 
         if (user != null && user.getPassword().equals(password)) {
-            return "redirect:/dashboard"; // Create a dashboard.html later
+            return "redirect:/dashboard";
         } else {
             model.addAttribute("error", "Email atau Password salah!");
             return "login-view";
